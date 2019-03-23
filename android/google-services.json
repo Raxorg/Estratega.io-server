@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "677067544369",
+    "firebase_url": "https://estratega-io.firebaseio.com",
+    "project_id": "estratega-io",
+    "storage_bucket": "estratega-io.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677067544369:android:64363afd46641cea",
+        "android_client_info": {
+          "package_name": "com.frontanilla.estrategaio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677067544369-s72silaabb85d3lu0j2ut53qe9hu9qsb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEkSFpsF1D8MznAr8BIzKZ9vrsGL1pEas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677067544369:android:43c58e673b48f5c8",
+        "android_client_info": {
+          "package_name": "com.frontanilla.estrategaioserver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677067544369-s72silaabb85d3lu0j2ut53qe9hu9qsb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEkSFpsF1D8MznAr8BIzKZ9vrsGL1pEas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
