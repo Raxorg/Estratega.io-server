@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.frontanilla.estrategaioserver.firebase.Player;
 import com.frontanilla.estrategaioserver.oldentities.cellables.Cellable;
-import com.frontanilla.estrategaioserver.oldvisualization.logic.Util;
+import com.frontanilla.estrategaioserver.utils.helpers.Coloring;
 
-import static com.frontanilla.estrategaioserver.zones.console.constants.ConsoleConstants.CELL_SIZE;
+import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.CELL_SIZE;
 
 public class Cell {
 
@@ -79,7 +79,7 @@ public class Cell {
         );
         // Draw owner mark
         if (owner != null) {
-            batch.setColor(Util.cloneWithAlpha(owner.getColor(), 0.5f));
+            batch.setColor(Coloring.colorWithAlpha(owner.getColor(), 0.5f));
             batch.draw(
                     background, // Assets.instance.displayAssets.pixel,
                     position.x,

@@ -15,10 +15,12 @@ import com.frontanilla.estrategaioserver.oldentities.cellables.Cellable;
 import com.frontanilla.estrategaioserver.oldentities.cellables.buildings.Base;
 import com.frontanilla.estrategaioserver.oldentities.cellables.buildings.Wall;
 import com.frontanilla.estrategaioserver.oldentities.cellables.units.Tank;
+import com.frontanilla.estrategaioserver.utils.helpers.Transform;
 import com.frontanilla.estrategaioserver.utils.structs.CellableData;
-import com.frontanilla.estrategaioserver.oldvisualization.logic.Util;
 
-import static com.frontanilla.estrategaioserver.zones.console.constants.ConsoleConstants.*;
+import static com.frontanilla.estrategaioserver.zones.console.constants.ConsoleConstants.CONSOLE_CAMERA_HEIGHT;
+import static com.frontanilla.estrategaioserver.zones.console.constants.ConsoleConstants.CONSOLE_MAP_SIZE;
+import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.*;
 
 public class Grid {
 
@@ -123,7 +125,7 @@ public class Grid {
 
     private Player getPlayerFromColorChar(char playerColor, DelayedRemovalArray<Player> players) {
         for (Player p : players) {
-            if (p.getColor() == Util.getColorFromChar(playerColor)) {
+            if (p.getColor() == Transform.stringToColor(playerColor + "")) {
                 return p;
             }
         }

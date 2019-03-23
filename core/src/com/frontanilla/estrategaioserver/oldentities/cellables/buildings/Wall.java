@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.frontanilla.estrategaioserver.firebase.Player;
 import com.frontanilla.estrategaioserver.zones.console.components.map.Cell;
 
-import static com.frontanilla.estrategaioserver.oldvisualization.logic.Constants.WALL_REPRESENTATION;
-import static com.frontanilla.estrategaioserver.zones.console.constants.ConsoleConstants.CELL_SIZE;
+import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.CELL_SIZE;
+import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.WALL_REPRESENTATION;
 
 public class Wall extends Building {
 

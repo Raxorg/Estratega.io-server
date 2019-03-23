@@ -19,7 +19,7 @@ import static com.frontanilla.estrategaioserver.zones.console.constants.GameCons
 
 public class Transform {
 
-    public static Vector2 getVector2FromRotation(float rotation) {
+    public static Vector2 rotationToVector2(float rotation) {
         return new Vector2(MathUtils.cosDeg(rotation), MathUtils.sinDeg(rotation));
     }
 

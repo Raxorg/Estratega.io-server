@@ -2,15 +2,16 @@ package com.frontanilla.estrategaioserver.oldentities.cellables.buildings;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.frontanilla.estrategaioserver.firebase.Player;
-import com.frontanilla.estrategaioserver.oldvisualization.logic.Constants;
 import com.frontanilla.estrategaioserver.zones.console.components.map.Cell;
 
-import static com.frontanilla.estrategaioserver.zones.console.constants.ConsoleConstants.CELL_SIZE;
+import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.BASE_REPRESENTATION;
+import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.CELL_SIZE;
+
 
 public class Base extends Building {
 
     public Base(Player player, Cell cell, int health, float rotation) {
-        super(player, cell, health, CELL_SIZE, CELL_SIZE, rotation, Constants.BASE_REPRESENTATION);
+        super(player, cell, health, CELL_SIZE, CELL_SIZE, rotation, BASE_REPRESENTATION);
     }
 
     @Override
