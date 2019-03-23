@@ -2,8 +2,8 @@ package com.frontanilla.estrategaioserver.zones.console.logic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Timer;
-import com.frontanilla.estrategaioserver.firebase.Player;
-import com.frontanilla.estrategaioserver.firebase.Request;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.globals.Enums;
 import com.frontanilla.estrategaioserver.utils.globals.GlobalConstants;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleFirebase;

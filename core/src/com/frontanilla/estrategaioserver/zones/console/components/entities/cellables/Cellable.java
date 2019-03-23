@@ -2,7 +2,7 @@ package com.frontanilla.estrategaioserver.zones.console.components.entities.cell
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.utils.helpers.Rendering;
 import com.frontanilla.estrategaioserver.zones.console.components.entities.Entity;
 

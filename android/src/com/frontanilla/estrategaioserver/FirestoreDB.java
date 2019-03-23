@@ -1,9 +1,9 @@
 package com.frontanilla.estrategaioserver;
 
 import android.support.annotation.NonNull;
-import com.frontanilla.estrategaioserver.firebase.Player;
-import com.frontanilla.estrategaioserver.firebase.firestore.FirestoreDBOnChangeFetchListener;
-import com.frontanilla.estrategaioserver.firebase.firestore.FirestoreDBInterface;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBInterface;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.helpers.Transform;
 import com.google.android.gms.tasks.OnCompleteListener;

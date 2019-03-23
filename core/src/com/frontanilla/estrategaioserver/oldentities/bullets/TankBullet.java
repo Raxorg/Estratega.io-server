@@ -3,7 +3,7 @@ package com.frontanilla.estrategaioserver.oldentities.bullets;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.utils.helpers.Transform;
 
 public class TankBullet extends Bullet {

@@ -1,10 +1,10 @@
 package com.frontanilla.estrategaioserver.zones.console;
 
 import com.frontanilla.estrategaioserver.core.ServerApp;
-import com.frontanilla.estrategaioserver.firebase.Player;
-import com.frontanilla.estrategaioserver.firebase.Request;
-import com.frontanilla.estrategaioserver.firebase.firestore.FirestoreDBOnChangeFetchListener;
-import com.frontanilla.estrategaioserver.firebase.realtime.RealtimeDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
+import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.interfacing.firebase.realtime.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
 import com.frontanilla.estrategaioserver.zones.console.logic.ConsoleLogic;

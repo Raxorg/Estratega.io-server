@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.gui.images.RectangleImage;
 import com.frontanilla.estrategaioserver.oldentities.cellables.Cellable;
 import com.frontanilla.estrategaioserver.oldentities.cellables.buildings.Base;

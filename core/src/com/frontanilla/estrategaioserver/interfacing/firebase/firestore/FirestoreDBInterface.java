@@ -1,6 +1,6 @@
-package com.frontanilla.estrategaioserver.firebase.firestore;
+package com.frontanilla.estrategaioserver.interfacing.firebase.firestore;
 
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.frontanilla.estrategaioserver.utils.advanced;
+package com.frontanilla.estrategaioserver.interfacing;
 
 public interface DebugLoggerInterface {
 

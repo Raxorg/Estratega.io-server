@@ -1,4 +1,4 @@
-package com.frontanilla.estrategaioserver.firebase;
+package com.frontanilla.estrategaioserver.interfacing.firebase;
 
 import com.badlogic.gdx.graphics.Color;
 

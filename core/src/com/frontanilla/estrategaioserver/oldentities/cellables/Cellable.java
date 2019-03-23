@@ -1,7 +1,7 @@
 package com.frontanilla.estrategaioserver.oldentities.cellables;
 
 import com.badlogic.gdx.math.Polygon;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.oldentities.Entity;
 import com.frontanilla.estrategaioserver.zones.console.components.map.Cell;
 

@@ -1,6 +1,6 @@
 package com.frontanilla.estrategaioserver.zones.console.components.entities.cellables.buildings;
 
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 
 public class Base extends Building {
 

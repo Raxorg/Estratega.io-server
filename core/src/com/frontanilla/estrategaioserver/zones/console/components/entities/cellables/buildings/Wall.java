@@ -2,7 +2,7 @@ package com.frontanilla.estrategaioserver.zones.console.components.entities.cell
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 
 public class Wall extends Building {
 

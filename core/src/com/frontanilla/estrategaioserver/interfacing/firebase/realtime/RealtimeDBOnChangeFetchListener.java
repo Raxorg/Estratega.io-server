@@ -1,4 +1,4 @@
-package com.frontanilla.estrategaioserver.firebase.realtime;
+package com.frontanilla.estrategaioserver.interfacing.firebase.realtime;
 
 public abstract class RealtimeDBOnChangeFetchListener<A> {
 

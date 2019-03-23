@@ -1,8 +1,10 @@
 package com.frontanilla.estrategaioserver.zones.console.logic.helpers;
 
-import com.frontanilla.estrategaioserver.firebase.Request;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 
 public class PassTurnRequestHandler {
+
+    private static final String TAG = "PassTurnRequestHandler";
 
     public void handleRequest(Request request) {
         // TODO

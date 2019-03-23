@@ -1,6 +1,6 @@
 package com.frontanilla.estrategaioserver.utils.structs;
 
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 
 public class CellableData {
 

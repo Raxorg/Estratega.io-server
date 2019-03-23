@@ -1,7 +1,7 @@
 package com.frontanilla.estrategaioserver.zones.console.components.entities;
 
 import com.badlogic.gdx.math.Polygon;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 
 public abstract class Entity {
 

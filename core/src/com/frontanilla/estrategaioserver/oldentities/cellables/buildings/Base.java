@@ -1,7 +1,7 @@
 package com.frontanilla.estrategaioserver.oldentities.cellables.buildings;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.zones.console.components.map.Cell;
 
 import static com.frontanilla.estrategaioserver.zones.console.constants.GameConstants.BASE_REPRESENTATION;

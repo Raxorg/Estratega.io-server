@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.utils.structs.CellableData;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleStuff;
 import com.frontanilla.estrategaioserver.zones.console.components.entities.cellables.Cellable;

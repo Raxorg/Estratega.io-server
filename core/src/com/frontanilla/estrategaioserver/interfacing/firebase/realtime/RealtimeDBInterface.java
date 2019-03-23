@@ -1,6 +1,6 @@
-package com.frontanilla.estrategaioserver.firebase.realtime;
+package com.frontanilla.estrategaioserver.interfacing.firebase.realtime;
 
-import com.frontanilla.estrategaioserver.firebase.Request;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
 

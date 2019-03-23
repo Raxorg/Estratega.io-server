@@ -1,7 +1,7 @@
 package com.frontanilla.estrategaioserver;
 
 import android.util.Log;
-import com.frontanilla.estrategaioserver.utils.advanced.DebugLoggerInterface;
+import com.frontanilla.estrategaioserver.interfacing.DebugLoggerInterface;
 
 public class DebugLogger implements DebugLoggerInterface {
 

@@ -1,4 +1,4 @@
-package com.frontanilla.estrategaioserver.firebase;
+package com.frontanilla.estrategaioserver.interfacing.firebase;
 
 import com.frontanilla.estrategaioserver.utils.globals.Enums.RequestType;
 

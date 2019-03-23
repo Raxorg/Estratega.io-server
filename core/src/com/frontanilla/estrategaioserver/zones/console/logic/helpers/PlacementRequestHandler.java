@@ -1,6 +1,6 @@
 package com.frontanilla.estrategaioserver.zones.console.logic.helpers;
 
-import com.frontanilla.estrategaioserver.firebase.Request;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 
 public class PlacementRequestHandler {
 

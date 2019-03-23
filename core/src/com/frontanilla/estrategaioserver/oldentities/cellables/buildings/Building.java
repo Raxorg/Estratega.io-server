@@ -1,6 +1,6 @@
 package com.frontanilla.estrategaioserver.oldentities.cellables.buildings;
 
-import com.frontanilla.estrategaioserver.firebase.Player;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.oldentities.cellables.Cellable;
 import com.frontanilla.estrategaioserver.zones.console.components.map.Cell;
 
