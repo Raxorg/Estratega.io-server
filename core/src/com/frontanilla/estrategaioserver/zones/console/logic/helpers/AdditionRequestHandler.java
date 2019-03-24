@@ -60,7 +60,7 @@ public class AdditionRequestHandler {
         newPlayerData.put("money", 10);
         newPlayerData.put("name", requestedName);
         newPlayerData.put("turn", playerDocuments.size);
-        consoleFirebase.addPlayer(playerPhoneID, newPlayerData);
+        consoleFirebase.addPlayerDocument(playerPhoneID, newPlayerData);
     }
 
     public void onSuccessAddingPlayer(String phoneID, Map playerData) {
@@ -81,10 +81,13 @@ public class AdditionRequestHandler {
                 "Failed to add a new player for " + phoneID + ". Retrying...");
         // Log in "REQUESTS" tab
         consoleStuff.getRequestLog().log("Failed to add a new player for " + phoneID + ". Retrying...");
-        consoleFirebase.addPlayer(phoneID, playerData);
+        consoleFirebase.addPlayerDocument(phoneID, playerData);
     }
 
     public void onAdditionRequestFieldCleared() {
-        // TODO
+        // Log in Logcat
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Addition Field Cleared");
+        // Log in "REQUESTS" tab
+        consoleStuff.getRequestLog().log("Addition Field Cleared");
     }
 }

@@ -3,6 +3,7 @@ package com.frontanilla.estrategaioserver.zones.console;
 import com.frontanilla.estrategaioserver.core.ServerApp;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.advanced.FirestoreDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.utils.advanced.OnModifyResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
@@ -172,7 +173,7 @@ public class ConsoleFirebase extends ZoneFirebase {
     //-----------------
     // PLAYER ADDITION
     //-----------------
-    public void addPlayer(final String phoneID, final Map<String, Object> playerData) {
+    public void addPlayerDocument(final String phoneID, final Map<String, Object> playerData) {
         final AdditionRequestHandler additionRequestHandler = ((ConsoleLogic) connector.getLogic()).getAdditionRequestHandler();
         ServerApp.instance.getFirestoreDBInterface().savePlayerData(phoneID, playerData, new OnResultListener() {
             @Override
@@ -186,13 +187,21 @@ public class ConsoleFirebase extends ZoneFirebase {
         });
     }
 
-    //-----------
-    // PASS TURN
-    //-----------
-    public void passTurn() {
-        // TODO: Pass Turn
-        // TODO: Clear Pass Turn Request Field
-        // TODO: Retry if Failure Occurs
+    //-------------
+    // MODIFY TURN
+    //-------------
+    public void modifyTurn(int turn) {
+        final PassTurnRequestHandler passTurnRequestHandler = ((ConsoleLogic) connector.getLogic()).getPassTurnRequestHandler();
+        ServerApp.instance.getRealtimeDBInterface().modifyTurn(turn, new OnModifyResultListener<Integer>() {
+            @Override
+            public void onResult(boolean success, Integer turn) {
+                if (success) {
+                    passTurnRequestHandler.onSuccessModifyingTurn(turn);
+                } else {
+                    passTurnRequestHandler.onFailureModifyingTurn(turn);
+                }
+            }
+        });
     }
 
     //------------------------

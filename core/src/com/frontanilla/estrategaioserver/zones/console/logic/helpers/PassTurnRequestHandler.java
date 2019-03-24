@@ -1,6 +1,7 @@
 package com.frontanilla.estrategaioserver.zones.console.logic.helpers;
 
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.frontanilla.estrategaioserver.core.ServerApp;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleConnector;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleFirebase;
@@ -22,7 +23,7 @@ public class PassTurnRequestHandler {
         consoleFirebase = (ConsoleFirebase) consoleConnector.getFirebase();
     }
 
-    public void handleRequest(Request request) {
+    void handleRequest(Request request) {
         // Deconstruct the Request
         String requesterPhoneID = request.getPlayerPhoneID();
         // Get the Turn
@@ -36,7 +37,7 @@ public class PassTurnRequestHandler {
                 // The Requester is in the Database Clone
                 if (playerDocuments.get(i).getTurn() == turn) {
                     // It's the Requester's Turn, Pass it
-                    consoleFirebase.passTurn();
+                    consoleFirebase.modifyTurn(turn);
                     return;
                 }
             }
@@ -44,8 +45,27 @@ public class PassTurnRequestHandler {
         consoleFirebase.clearPassTurnRequestField();
     }
 
-    public void onPassTurnRequestFieldCleared() {
+    public void onSuccessModifyingTurn(int turn) {
+        // consoleFirebase.modifyPlayerMoney();
+        // TODO: Clear Pass Turn Request Field
+        // TODO: Retry if Failure Occurs
+        // TODO: If Another Round, Add Money to All Players
+    }
 
+    public void onFailureModifyingTurn(int turn) {
+        // Log in Logcat
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG,
+                "Failed to modify turn. Retrying...");
+        // Log in "REQUESTS" tab
+        consoleStuff.getRequestLog().log("Failed to modify turn. Retrying...");
+        consoleFirebase.modifyTurn(turn);
+    }
+
+    public void onPassTurnRequestFieldCleared() {
+        // Log in Logcat
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Pass Turn Field Cleared");
+        // Log in "REQUESTS" tab
+        consoleStuff.getRequestLog().log("Pass Turn Field Cleared");
     }
 }
 /*
