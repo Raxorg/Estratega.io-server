@@ -24,11 +24,24 @@ public class PassTurnRequestHandler {
 
     public void handleRequest(Request request) {
         // Deconstruct the Request
-        String playerPhoneID = request.getPlayerPhoneID();
+        String requesterPhoneID = request.getPlayerPhoneID();
         // Get the Turn
         int turn = consoleLogic.getDatabaseClone().getDBTurn().getTurn();
-        // Check if it's the Player's Turn
-
+        // Get the Players
+        DelayedRemovalArray<DBPlayerDocument> playerDocuments;
+        playerDocuments = consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments();
+        // Check if it's the Requester's Turn
+        for (int i = 0; i < playerDocuments.size; i++) {
+            if (playerDocuments.get(i).getPhoneID().equals(requesterPhoneID)) {
+                // The Requester is in the Database Clone
+                if (playerDocuments.get(i).getTurn() == turn) {
+                    // It's the Requester's Turn, Pass it
+                    consoleFirebase.passTurn();
+                    return;
+                }
+            }
+        }
+        consoleFirebase.clearPassTurnRequestField();
     }
 
     public void onPassTurnRequestFieldCleared() {
@@ -36,34 +49,6 @@ public class PassTurnRequestHandler {
     }
 }
 /*
-//--------------------------------
-    //       PASS TURN REQUEST
-    //--------------------------------
-
-    private void handlePassTurnRequest(final String passTurn) {
-        System.out.println("GameLogic-handlePassTurnRequest");
-        // TODO Process the Pass Turn String
-//        if (passTurn) {
-//            // TODO make tanks fire xd
-//            // Get the current turn
-//            FirestoreDBConnection.getInstance().fetchTurn(new FetchListener<Integer>() {
-//                @Override
-//                public void onDataFetched(final Integer turn) {
-//                    // Get the players to know how to increment the turn
-//                    FirestoreDBConnection.getInstance().fetchPlayers(new FetchListener<ArrayList<Player>>() {
-//                        @Override
-//                        public void onDataFetched(ArrayList<Player> players) {
-//                            ((GameWorld) screenWorld).getGrid().update(players);
-//                            ((GameWorld) screenWorld).updatePlayerInfo(players, turn);
-//                            passTurn(turn, players);
-//                        }
-//                    });
-//                }
-//            });
-//        } else {
-//            handlingPassTurnRequest = false;
-//        }
-    }
 
     private void passTurn(final int turn, final DelayedRemovalArray<Player> players) {
         System.out.println("GameLogic-passTurn");
@@ -113,21 +98,6 @@ public class PassTurnRequestHandler {
                     passTurnRequestHandled();
                 } else {
                     FirestoreDBConnection.getInstance().savePlayerData(finalPlayerPhoneID, playerData, this);
-                }
-            }
-        });
-    }
-
-    private void passTurnRequestHandled() {
-        FirestoreDBConnection.getInstance().passTurnRequestHandled(new OnResultListener() {
-            @Override
-            public void onResult(boolean success) {
-                if (success) {
-                    System.out.println("Pass turn request set to false");
-                    handlingPassTurnRequest = false;
-                } else {
-                    System.out.println("Reattempting to false pass turn");
-                    FirestoreDBConnection.getInstance().passTurnRequestHandled(this);
                 }
             }
         });

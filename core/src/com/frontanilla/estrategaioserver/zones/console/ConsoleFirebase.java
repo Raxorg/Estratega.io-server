@@ -188,7 +188,10 @@ public class ConsoleFirebase extends ZoneFirebase {
     //-----------
 
     public void passTurn() {
-        // TODO
+
+        // TODO: Pass Turn
+        // TODO: Clear Pass Turn Request Field
+        // TODO: Retry if Failure Occurs
     }
 
     //------------------------

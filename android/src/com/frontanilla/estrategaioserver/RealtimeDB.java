@@ -1,10 +1,10 @@
 package com.frontanilla.estrategaioserver;
 
 import android.support.annotation.NonNull;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.interfacing.firebase.RealtimeDBInterface;
-import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
+import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +34,9 @@ public class RealtimeDB implements RealtimeDBInterface {
         turnReference = database.getReference("Turn");
     }
 
+    //-------------------
+    // REALTIME FETCHING
+    //-------------------
     // Grid Rows
     @Override
     public void fetchGridRowsInRealtime(final RealtimeDBOnChangeFetchListener<GridRow> gridRowListener) {
@@ -42,8 +45,13 @@ public class RealtimeDB implements RealtimeDBInterface {
             gridRowReferences[i].addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    GridRow gridRow = new GridRow(finalI, dataSnapshot.getValue(String.class));
-                    gridRowListener.onDataFetched(gridRow);
+                    String gridRowString = dataSnapshot.getValue(String.class);
+                    if (gridRowString != null) {
+                        GridRow gridRow = new GridRow(finalI, gridRowString);
+                        gridRowListener.onDataFetched(gridRow);
+                    } else {
+                        gridRowListener.onFailure("Error in fetchGridRowsInRealtime: Value From DataSnapshot is null");
+                    }
                 }
 
                 @Override
@@ -129,10 +137,24 @@ public class RealtimeDB implements RealtimeDBInterface {
         });
     }
 
+    //-----------
+    // MODIFYING
+    //-----------
+    // Turn
+    @Override
+    public void modifyTurn(int turn, final OnResultListener listener) {
+        turnReference.setValue(turn).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onResult(task.isSuccessful());
+            }
+        });
+    }
+
     //------------------------
     // REQUEST FIELD CLEARING
     //------------------------
-    // ADDITION REQUEST
+    // Addition Request
     @Override
     public void clearAdditionRequestField(final OnResultListener onResultListener) {
         additionReference.setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -143,7 +165,7 @@ public class RealtimeDB implements RealtimeDBInterface {
         });
     }
 
-    // PASS TURN REQUEST
+    // Pass Turn Request
     @Override
     public void clearPassTurnRequestField(final OnResultListener onResultListener) {
         passTurnReference.setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,7 +176,7 @@ public class RealtimeDB implements RealtimeDBInterface {
         });
     }
 
-    // PLACEMENT REQUEST
+    // Placement Request
     @Override
     public void clearPlacementRequestField(final OnResultListener onResultListener) {
         placementReference.setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {

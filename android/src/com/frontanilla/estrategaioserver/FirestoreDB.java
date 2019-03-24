@@ -98,18 +98,6 @@ class FirestoreDB implements FirestoreDBInterface {
     }
 
     @Override
-    public void saveTurn(int turn, final OnResultListener listener) {
-        Map<String, Object> turnMap = new HashMap<>();
-        turnMap.put("turn", turn);
-        turnReference.set(turnMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                listener.onResult(task.isSuccessful());
-            }
-        });
-    }
-
-    @Override
     public void savePlayerData(String phoneID, Map<String, Object> playerData, final OnResultListener listener) {
         playerDataReference.document(phoneID).set(playerData).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

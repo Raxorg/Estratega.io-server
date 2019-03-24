@@ -22,8 +22,6 @@ public interface FirestoreDBInterface {
 
     void saveGridRows(String[] rows, OnResultListener listener);
 
-    void saveTurn(int turn, OnResultListener listener);
-
     void savePlayerData(String phoneID, Map<String, Object> playerData, OnResultListener listener);
 
     //------------------------

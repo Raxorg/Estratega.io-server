@@ -1,6 +1,5 @@
 package com.frontanilla.estrategaioserver.interfacing.firebase;
 
-import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
@@ -20,6 +19,12 @@ public interface RealtimeDBInterface {
     void fetchPlacementRequestInRealtime(RealtimeDBOnChangeFetchListener<Request> placementRequestListener);
 
     void fetchTurnInRealtime(RealtimeDBOnChangeFetchListener<Integer> turnListener);
+
+    //-----------
+    // Modifying
+    //-----------
+
+    void modifyTurn(int turn, OnResultListener listener);
 
     //------------------------
     // Request Field Clearing
