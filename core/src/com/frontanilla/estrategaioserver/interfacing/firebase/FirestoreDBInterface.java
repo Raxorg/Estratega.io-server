@@ -23,14 +23,4 @@ public interface FirestoreDBInterface {
     void saveGridRows(String[] rows, OnResultListener listener);
 
     void savePlayerData(String phoneID, Map<String, Object> playerData, OnResultListener listener);
-
-    //------------------------
-    // REQUEST FIELD CLEARING
-    //------------------------
-
-    void additionRequestsHandled(String[] requests, OnResultListener listener);
-
-    void passTurnRequestHandled(OnResultListener listener);
-
-    void placementRequestHandled(String[] requests, OnResultListener listener);
 }

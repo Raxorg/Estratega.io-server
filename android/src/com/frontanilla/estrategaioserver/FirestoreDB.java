@@ -7,7 +7,6 @@ import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.helpers.Transform;
 import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.*;
 
@@ -19,8 +18,6 @@ class FirestoreDB implements FirestoreDBInterface {
     private AndroidLauncher androidLauncher;
     // Database
     private DocumentReference gridReference;
-    private DocumentReference requestsReference;
-    private DocumentReference turnReference;
     private CollectionReference playerDataReference;
     private ListenerRegistration playerDataListenerRegistration;
 
@@ -28,8 +25,6 @@ class FirestoreDB implements FirestoreDBInterface {
         this.androidLauncher = androidLauncher;
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         gridReference = database.document("gameData/grid");
-        requestsReference = database.document("gameData/requests");
-        turnReference = database.document("gameData/turn");
         playerDataReference = database.collection("playerData");
     }
 
@@ -103,86 +98,6 @@ class FirestoreDB implements FirestoreDBInterface {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 listener.onResult(task.isSuccessful());
-            }
-        });
-    }
-
-    //------------------------
-    // HANDLING
-    //------------------------
-
-    @Override
-    public void additionRequestsHandled(final String[] requests, final OnResultListener listener) {
-        requestsReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String additionRequests = documentSnapshot.getString("additions");
-                String passTurnRequest = documentSnapshot.getString("passTurn");
-                String placementRequest = documentSnapshot.getString("placement");
-                for (String request : requests) {
-                    if (request.contains(".")) {
-                        additionRequests = additionRequests.replace(request + ",", "");
-                    }
-                }
-                Map<String, Object> requestsMap = new HashMap<>();
-                requestsMap.put("additions", additionRequests);
-                requestsMap.put("passTurn", passTurnRequest);
-                requestsMap.put("placement", placementRequest);
-                requestsReference.set(requestsMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onResult(task.isSuccessful());
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    public void passTurnRequestHandled(final OnResultListener listener) {
-        requestsReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String additionRequests = documentSnapshot.getString("additions");
-                String passTurnRequest = documentSnapshot.getString("passTurn");
-                String placementRequest = documentSnapshot.getString("placement");
-                Map<String, Object> requestsMap = new HashMap<>();
-                requestsMap.put("additions", additionRequests);
-                requestsMap.put("passTurn", "");
-                requestsMap.put("placement", placementRequest);
-                requestsReference.set(requestsMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onResult(task.isSuccessful());
-                    }
-                });
-            }
-        });
-    }
-
-    @Override
-    public void placementRequestHandled(final String[] requests, final OnResultListener listener) {
-        requestsReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String additionRequests = documentSnapshot.getString("additions");
-                String passTurnRequest = documentSnapshot.getString("passTurn");
-                String placementRequest = documentSnapshot.getString("placement");
-                for (String request : requests) {
-                    if (request.contains(".")) {
-                        placementRequest = placementRequest.replace(request + ",", "");
-                    }
-                }
-                Map<String, Object> requestsMap = new HashMap<>();
-                requestsMap.put("additions", additionRequests);
-                requestsMap.put("passTurn", passTurnRequest);
-                requestsMap.put("placement", placementRequest);
-                requestsReference.set(requestsMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        listener.onResult(task.isSuccessful());
-                    }
-                });
             }
         });
     }
