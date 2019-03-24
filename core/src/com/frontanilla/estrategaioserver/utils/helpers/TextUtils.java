@@ -21,13 +21,4 @@ public class TextUtils {
     public static float getTextHeight(String text, BitmapFont font) {
         return getTextSize(text, font).y;
     }
-
-    // TODO
-    public static float getWrappedTextHeight(String text, BitmapFont font, float targetWidth) {
-        for (char c : text.toCharArray()) {
-            float width = font.getData().getGlyph(c).width;
-            float xadvance = font.getData().getGlyph(c).xadvance;
-        }
-        return 0;
-    }
 }

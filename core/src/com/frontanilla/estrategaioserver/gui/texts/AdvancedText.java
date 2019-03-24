@@ -42,7 +42,7 @@ public class AdvancedText extends Text {
                 bounds.x,
                 bounds.y - textHeight,
                 textWidth,
-                bounds.height); // TODO Calculate Number of Lines and Y Spacing
+                bounds.height);
     }
 
     public void setPosition(float x, float y) {
