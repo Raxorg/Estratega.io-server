@@ -1,13 +1,35 @@
 package com.frontanilla.estrategaioserver.zones.console.logic.helpers;
 
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
+import com.frontanilla.estrategaioserver.zones.console.ConsoleConnector;
+import com.frontanilla.estrategaioserver.zones.console.ConsoleFirebase;
+import com.frontanilla.estrategaioserver.zones.console.ConsoleStuff;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
+import com.frontanilla.estrategaioserver.zones.console.logic.ConsoleLogic;
 
 public class PassTurnRequestHandler {
 
     private static final String TAG = "PassTurnRequestHandler";
+    // Console
+    private ConsoleLogic consoleLogic;
+    private ConsoleStuff consoleStuff;
+    private ConsoleFirebase consoleFirebase;
+
+    public PassTurnRequestHandler(ConsoleConnector consoleConnector) {
+        consoleLogic = (ConsoleLogic) consoleConnector.getLogic();
+        consoleStuff = (ConsoleStuff) consoleConnector.getStuff();
+        consoleFirebase = (ConsoleFirebase) consoleConnector.getFirebase();
+    }
 
     public void handleRequest(Request request) {
-        // TODO
+        // Deconstruct the Request
+        String playerPhoneID = request.getPlayerPhoneID();
+        // Get the Players
+        DelayedRemovalArray<DBPlayerDocument> playerDocuments;
+        playerDocuments = consoleLogic.getDatabaseClone().getPlayerData().getPlayerDocuments();
+        // Check if it's the Player's Turn
+
     }
 }
 /*

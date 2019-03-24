@@ -2,8 +2,8 @@ package com.frontanilla.estrategaioserver.core;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBInterface;
-import com.frontanilla.estrategaioserver.interfacing.firebase.realtime.RealtimeDBInterface;
+import com.frontanilla.estrategaioserver.interfacing.firebase.FirestoreDBInterface;
+import com.frontanilla.estrategaioserver.interfacing.firebase.RealtimeDBInterface;
 import com.frontanilla.estrategaioserver.interfacing.DebugLoggerInterface;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneConnector;

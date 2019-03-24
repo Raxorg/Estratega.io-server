@@ -2,8 +2,8 @@ package com.frontanilla.estrategaioserver;
 
 import android.support.annotation.NonNull;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
-import com.frontanilla.estrategaioserver.interfacing.firebase.realtime.RealtimeDBInterface;
-import com.frontanilla.estrategaioserver.interfacing.firebase.realtime.RealtimeDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.interfacing.firebase.RealtimeDBInterface;
+import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
 import com.google.android.gms.tasks.OnCompleteListener;

@@ -2,14 +2,13 @@ package com.frontanilla.estrategaioserver.zones.console.logic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Timer;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.globals.Enums;
 import com.frontanilla.estrategaioserver.utils.globals.GlobalConstants;
+import com.frontanilla.estrategaioserver.zones.console.ConsoleConnector;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleFirebase;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleScreen;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleStuff;
-import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DatabaseClone;
 import com.frontanilla.estrategaioserver.zones.console.logic.helpers.*;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneConnector;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneLogic;
@@ -26,13 +25,17 @@ public class ConsoleLogic extends ZoneLogic {
     private AdditionRequestHandler additionRequestHandler;
     private PassTurnRequestHandler passTurnRequestHandler;
     private PlacementRequestHandler placementRequestHandler;
+    private DatabaseHandler databaseHandler;
     private MapHandler mapHandler;
     private InputHandler inputHandler;
     // Logic
     private Enums.ConsoleTab currentTab;
+    // Database
+    private DatabaseClone databaseClone;
 
     public ConsoleLogic(ZoneConnector connector) {
         super(connector);
+        databaseClone = new DatabaseClone();
     }
 
     @Override
@@ -40,19 +43,15 @@ public class ConsoleLogic extends ZoneLogic {
         consoleStuff = (ConsoleStuff) connector.getStuff();
         ConsoleFirebase consoleFirebase = (ConsoleFirebase) connector.getFirebase();
 
-        initialStuffBehavior(consoleFirebase);
-        startListeningToDatabases(consoleFirebase);
+        initializeStuff();
+        initializeHelpers(consoleFirebase);
+        databaseHandler.startListeningToDatabasesInRealTime();
     }
 
-    private void initialStuffBehavior(ConsoleFirebase consoleFirebase) {
+    private void initializeStuff() {
         // Initialize Stuff - Console Assets Loaded in Splash Zone
         consoleStuff.initStuff();
-        // Initialize Helpers
-        additionRequestHandler = new AdditionRequestHandler(consoleStuff, consoleFirebase);
-        passTurnRequestHandler = new PassTurnRequestHandler();
-        placementRequestHandler = new PlacementRequestHandler();
-        mapHandler = new MapHandler(this, consoleStuff);
-        inputHandler = new InputHandler(this, consoleStuff);
+        consoleStuff.getPlayerList().setDatabaseClone(databaseClone);
         // Initial Tab
         currentTab = PLAYERS;
         hideRequestLog();
@@ -68,62 +67,19 @@ public class ConsoleLogic extends ZoneLogic {
         }, FADING_DURATION);
     }
 
-    private void startListeningToDatabases(ConsoleFirebase consoleFirebase) {
-        // Start Listening to Changes in Players
-        consoleFirebase.fetchPlayersInRealtime();
-        // Start Listening to Changes in the Grid Rows
-        consoleFirebase.fetchGridRowsInRealtime();
-        // Start Listening to Changes in the Requests
-        consoleFirebase.fetchAdditionRequestInRealtime();
-        consoleFirebase.fetchPassTurnRequestInRealtime();
-        consoleFirebase.fetchPlacementRequestInRealtime();
-        // Start Listening to Changes in the Turn
-        consoleFirebase.fetchTurnInRealtime();
+    private void initializeHelpers(ConsoleFirebase consoleFirebase) {
+        additionRequestHandler = new AdditionRequestHandler((ConsoleConnector) connector);
+        passTurnRequestHandler = new PassTurnRequestHandler((ConsoleConnector) connector);
+        placementRequestHandler = new PlacementRequestHandler((ConsoleConnector) connector);
+        databaseHandler = new DatabaseHandler(this, consoleStuff, consoleFirebase);
+        mapHandler = new MapHandler(this, consoleStuff);
+        inputHandler = new InputHandler(this, consoleStuff);
     }
 
     @Override
     public void update(float delta) {
         consoleStuff.getWhiteImage().update(delta);
         consoleStuff.getAnimatedBackground().update(delta);
-    }
-
-    //----------------------------
-    // Called by Console Firebase
-    //----------------------------
-
-    public void addPlayer(Player player) {
-        consoleStuff.getPlayerList().addPlayer(player);
-    }
-
-    public void modifyPlayer(Player player) {
-        consoleStuff.getPlayerList().modifyPlayer(player);
-    }
-
-    public void removePlayer(Player player) {
-        consoleStuff.getPlayerList().removePlayer(player);
-    }
-
-    public void updateGridRow(GridRow gridRow) {
-        // TODO
-    }
-
-    public void addRequest(Request request) {
-        consoleStuff.getRequestLog().log(request.getRequestType() + request.getPlayerPhoneID() + request.getData());
-        switch (request.getRequestType()) {
-            case ADDITION:
-                additionRequestHandler.handleRequest(request);
-                break;
-            case PASS_TURN:
-                passTurnRequestHandler.handleRequest(request);
-                break;
-            case PLACEMENT:
-                placementRequestHandler.handleRequest(request);
-                break;
-        }
-    }
-
-    public void turnChanged(int newTurn) {
-        // TODO
     }
 
     //-------------------------
@@ -188,6 +144,10 @@ public class ConsoleLogic extends ZoneLogic {
         return placementRequestHandler;
     }
 
+    public DatabaseHandler getDatabaseHandler() {
+        return databaseHandler;
+    }
+
     public MapHandler getMapHandler() {
         return mapHandler;
     }
@@ -199,5 +159,10 @@ public class ConsoleLogic extends ZoneLogic {
     // Tab
     public Enums.ConsoleTab getCurrentTab() {
         return currentTab;
+    }
+
+    // Database
+    public DatabaseClone getDatabaseClone() {
+        return databaseClone;
     }
 }

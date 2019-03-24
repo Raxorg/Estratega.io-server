@@ -1,4 +1,4 @@
-package com.frontanilla.estrategaioserver.interfacing.firebase.firestore;
+package com.frontanilla.estrategaioserver.utils.advanced;
 
 public abstract class FirestoreDBOnChangeFetchListener<A> {
 

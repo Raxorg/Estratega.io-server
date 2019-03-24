@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.utils.structs.CellableData;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleStuff;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 import com.frontanilla.estrategaioserver.zones.console.components.entities.cellables.Cellable;
 import com.frontanilla.estrategaioserver.zones.console.components.entities.cellables.buildings.Base;
 import com.frontanilla.estrategaioserver.zones.console.components.entities.cellables.buildings.Wall;
@@ -39,12 +39,12 @@ public class Transform {
         return rectangleToPolygon(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
-    public static Player snapshotDataToPlayer(String phoneID, Map<String, Object> snapshotData) {
-        String name = (String) snapshotData.get("name");
+    public static DBPlayerDocument snapshotDataToPlayerDocument(String phoneID, Map<String, Object> snapshotData) {
+        String color = (String) snapshotData.get("color");
         int money = ((Long) snapshotData.get("money")).intValue();
-        Color color = stringToColor((String) snapshotData.get("color"));
+        String name = (String) snapshotData.get("name");
         int turn = ((Long) snapshotData.get("turn")).intValue();
-        return new Player(phoneID, name, color, money, turn);
+        return new DBPlayerDocument(phoneID, color, money, name, turn);
     }
 
     public static Color stringToColor(String string) {

@@ -1,7 +1,8 @@
-package com.frontanilla.estrategaioserver.interfacing.firebase.firestore;
+package com.frontanilla.estrategaioserver.interfacing.firebase;
 
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.utils.advanced.FirestoreDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public interface FirestoreDBInterface {
     // REAL TIME FETCHING
     //--------------------
 
-    void fetchPlayersInRealTime(FirestoreDBOnChangeFetchListener<Player> playersListener);
+    void fetchPlayersInRealTime(FirestoreDBOnChangeFetchListener<DBPlayerDocument> playersListener);
 
     void stopFetchingPlayersInRealtime();
 

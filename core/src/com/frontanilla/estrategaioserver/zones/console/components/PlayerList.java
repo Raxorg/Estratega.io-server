@@ -8,15 +8,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.gui.images.RectangleImage;
 import com.frontanilla.estrategaioserver.gui.texts.AdvancedText;
 import com.frontanilla.estrategaioserver.gui.texts.BackgroundAdvancedText;
+import com.frontanilla.estrategaioserver.utils.helpers.Transform;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DatabaseClone;
 
 public class PlayerList {
 
-    // Core
-    private DelayedRemovalArray<Player> players;
+    private DatabaseClone databaseClone;
     // Rendering
     private TextureRegion textBackground;
     private float margin;
@@ -27,8 +28,6 @@ public class PlayerList {
     private DelayedRemovalArray<BackgroundAdvancedText> playerTexts;
 
     public PlayerList(float x, float y, float w, float h, TextureRegion textBackground, BitmapFont font) {
-        // Core
-        players = new DelayedRemovalArray<>();
         // Rendering
         this.textBackground = textBackground;
         margin = (h - 8.5f * (h / 9)) / 2;
@@ -63,33 +62,11 @@ public class PlayerList {
         updateTexts();
     }
 
-    // Player Updating
-    public void addPlayer(Player player) {
-        players.add(player);
-        updateTexts();
-    }
-
-    public void modifyPlayer(Player player) {
-        for (int i = 0; i < players.size; i++) {
-            if (players.get(i).getPhoneID().equals(player.getPhoneID())) {
-                players.get(i).set(player);
-                break;
-            }
-        }
-        updateTexts();
-    }
-
-    public void removePlayer(Player player) {
-        players.begin();
-        players.removeValue(player, false);
-        players.end();
-        updateTexts();
-    }
-
-    private void updateTexts() {
+    public void updateTexts() {
         playerTexts.begin();
         playerTexts.clear();
         Rectangle bounds = backgroundImage.getBounds();
+        DelayedRemovalArray<DBPlayerDocument> players = databaseClone.getPlayerData().getPlayerDocuments();
         for (int i = 0; i < players.size; i++) {
             BackgroundAdvancedText newAdvancedText = new BackgroundAdvancedText(
                     bounds.x, bounds.y + bounds.height - (bounds.height / 9) * (i + 1) - margin,
@@ -98,18 +75,19 @@ public class PlayerList {
             newAdvancedText.setText(players.get(i).getName() + " T" +
                     players.get(i).getTurn() + " " +
                     players.get(i).getMoney() + "$");
-            newAdvancedText.setColor(players.get(i).getColor());
+            Color playerColor = Transform.stringToColor(players.get(i).getColor());
+            newAdvancedText.setColor(playerColor);
             playerTexts.add(newAdvancedText);
         }
         playerTexts.end();
     }
 
     // Getters & Setters
-    public DelayedRemovalArray<Player> getPlayers() {
-        return players;
-    }
-
     public RectangleImage getBackgroundImage() {
         return backgroundImage;
+    }
+
+    public void setDatabaseClone(DatabaseClone databaseClone) {
+        this.databaseClone = databaseClone;
     }
 }

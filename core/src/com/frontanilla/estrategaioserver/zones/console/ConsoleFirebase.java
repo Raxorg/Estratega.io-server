@@ -1,14 +1,15 @@
 package com.frontanilla.estrategaioserver.zones.console;
 
 import com.frontanilla.estrategaioserver.core.ServerApp;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
-import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBOnChangeFetchListener;
-import com.frontanilla.estrategaioserver.interfacing.firebase.realtime.RealtimeDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.utils.advanced.FirestoreDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
+import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
 import com.frontanilla.estrategaioserver.zones.console.logic.ConsoleLogic;
 import com.frontanilla.estrategaioserver.zones.console.logic.helpers.AdditionRequestHandler;
+import com.frontanilla.estrategaioserver.zones.console.logic.helpers.DatabaseHandler;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneConnector;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneFirebase;
 
@@ -27,34 +28,35 @@ public class ConsoleFirebase extends ZoneFirebase {
     //-------------------
     // Players
     public void fetchPlayersInRealtime() {
-        final ConsoleLogic consoleLogic = (ConsoleLogic) connector.getLogic();
-        ServerApp.instance.getFirestoreDBInterface().fetchPlayersInRealTime(new FirestoreDBOnChangeFetchListener<Player>() {
-            @Override
-            public void onFailure(String message) {
-                System.out.println(message + " RETRYING");
-                fetchPlayersInRealtime();
-            }
+        final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
+        ServerApp.instance.getFirestoreDBInterface().fetchPlayersInRealTime(
+                new FirestoreDBOnChangeFetchListener<DBPlayerDocument>() {
+                    @Override
+                    public void onFailure(String message) {
+                        System.out.println(message + " RETRYING");
+                        fetchPlayersInRealtime();
+                    }
 
-            @Override
-            public void onAddition(Player player) {
-                consoleLogic.addPlayer(player);
-            }
+                    @Override
+                    public void onAddition(DBPlayerDocument playerDocument) {
+                        databaseHandler.addPlayer(playerDocument);
+                    }
 
-            @Override
-            public void onModification(Player player) {
-                consoleLogic.modifyPlayer(player);
-            }
+                    @Override
+                    public void onModification(DBPlayerDocument playerDocument) {
+                        databaseHandler.modifyPlayer(playerDocument);
+                    }
 
-            @Override
-            public void onRemoval(Player player) {
-                consoleLogic.removePlayer(player);
-            }
-        });
+                    @Override
+                    public void onRemoval(DBPlayerDocument dbPlayerDocument) {
+                        databaseHandler.removePlayer(dbPlayerDocument);
+                    }
+                });
     }
 
     // Grid Rows
     public void fetchGridRowsInRealtime() {
-        final ConsoleLogic consoleLogic = (ConsoleLogic) connector.getLogic();
+        final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
         ServerApp.instance.getRealtimeDBInterface().fetchGridRowsInRealtime(new RealtimeDBOnChangeFetchListener<GridRow>() {
             @Override
             public void onFailure(String message) {
@@ -64,7 +66,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onDataFetched(GridRow gridRow) {
-                consoleLogic.updateGridRow(gridRow);
+                databaseHandler.updateGridRow(gridRow);
             }
 
             @Override
@@ -76,7 +78,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
     // Addition Request
     public void fetchAdditionRequestInRealtime() {
-        final ConsoleLogic consoleLogic = (ConsoleLogic) connector.getLogic();
+        final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
         ServerApp.instance.getRealtimeDBInterface().fetchAdditionRequestInRealtime(new RealtimeDBOnChangeFetchListener<Request>() {
             @Override
             public void onFailure(String message) {
@@ -86,7 +88,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onDataFetched(Request additionRequest) {
-                consoleLogic.addRequest(additionRequest);
+                databaseHandler.addRequest(additionRequest);
             }
 
             @Override
@@ -98,7 +100,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
     // Pass Turn
     public void fetchPassTurnRequestInRealtime() {
-        final ConsoleLogic consoleLogic = (ConsoleLogic) connector.getLogic();
+        final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
         ServerApp.instance.getRealtimeDBInterface().fetchPassTurnRequestInRealtime(new RealtimeDBOnChangeFetchListener<Request>() {
             @Override
             public void onFailure(String message) {
@@ -108,7 +110,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onDataFetched(Request passTurn) {
-                consoleLogic.addRequest(passTurn);
+                databaseHandler.addRequest(passTurn);
             }
 
             @Override
@@ -120,7 +122,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
     // Placement
     public void fetchPlacementRequestInRealtime() {
-        final ConsoleLogic consoleLogic = (ConsoleLogic) connector.getLogic();
+        final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
         ServerApp.instance.getRealtimeDBInterface().fetchPlacementRequestInRealtime(new RealtimeDBOnChangeFetchListener<Request>() {
             @Override
             public void onFailure(String message) {
@@ -130,7 +132,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onDataFetched(Request placementRequest) {
-                consoleLogic.addRequest(placementRequest);
+                databaseHandler.addRequest(placementRequest);
             }
 
             @Override
@@ -142,7 +144,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
     // Turn
     public void fetchTurnInRealtime() {
-        final ConsoleLogic consoleLogic = (ConsoleLogic) connector.getLogic();
+        final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
         ServerApp.instance.getRealtimeDBInterface().fetchTurnInRealtime(new RealtimeDBOnChangeFetchListener<Integer>() {
             @Override
             public void onFailure(String message) {
@@ -152,7 +154,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onDataFetched(Integer turn) {
-                consoleLogic.turnChanged(turn);
+                databaseHandler.turnChanged(turn);
             }
 
             @Override

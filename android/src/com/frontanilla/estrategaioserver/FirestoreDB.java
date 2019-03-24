@@ -1,11 +1,11 @@
 package com.frontanilla.estrategaioserver;
 
 import android.support.annotation.NonNull;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
-import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBOnChangeFetchListener;
-import com.frontanilla.estrategaioserver.interfacing.firebase.firestore.FirestoreDBInterface;
+import com.frontanilla.estrategaioserver.interfacing.firebase.FirestoreDBInterface;
+import com.frontanilla.estrategaioserver.utils.advanced.FirestoreDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.helpers.Transform;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +37,7 @@ class FirestoreDB implements FirestoreDBInterface {
     // REAL TIME FETCHING
     //--------------------
     @Override
-    public void fetchPlayersInRealTime(final FirestoreDBOnChangeFetchListener<Player> playersListener) {
+    public void fetchPlayersInRealTime(final FirestoreDBOnChangeFetchListener<DBPlayerDocument> playersListener) {
         playerDataListenerRegistration = playerDataReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -52,16 +52,17 @@ class FirestoreDB implements FirestoreDBInterface {
                     }
                     Map<String, Object> documentData = documentSnapshot.getData();
                     if (documentData != null) {
-                        Player player = Transform.snapshotDataToPlayer(documentSnapshot.getId(), documentData);
+                        DBPlayerDocument playerDocument;
+                        playerDocument = Transform.snapshotDataToPlayerDocument(documentSnapshot.getId(), documentData);
                         switch (documentChange.getType()) {
                             case ADDED:
-                                playersListener.onAddition(player);
+                                playersListener.onAddition(playerDocument);
                                 break;
                             case MODIFIED:
-                                playersListener.onModification(player);
+                                playersListener.onModification(playerDocument);
                                 break;
                             case REMOVED:
-                                playersListener.onRemoval(player);
+                                playersListener.onRemoval(playerDocument);
                                 break;
                         }
                     }
