@@ -65,8 +65,7 @@ public class AdditionRequestHandler {
 
     public void onSuccessAddingPlayer(String phoneID, Map playerData) {
         // Log in Logcat
-        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG,
-                "Success adding a new player for " + phoneID);
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Success adding a new player for " + phoneID);
         // Log in "REQUESTS" tab
         consoleStuff.getRequestLog().log(
                 "Success Adding Player for " + phoneID,

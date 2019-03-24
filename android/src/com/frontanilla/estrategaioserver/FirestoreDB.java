@@ -73,10 +73,10 @@ class FirestoreDB implements FirestoreDBInterface {
         }
     }
 
-    //--------------------------------
-    //         SAVING CHANGES
-    //--------------------------------
-
+    //-----------
+    // MODIFYING
+    //-----------
+    // Grid Rows
     @Override
     public void saveGridRows(String[] gridRows, final OnResultListener listener) {
         Map<String, Object> gridRowsMap = new HashMap<>();
@@ -92,9 +92,22 @@ class FirestoreDB implements FirestoreDBInterface {
         });
     }
 
+    // Player Data
     @Override
     public void savePlayerData(String phoneID, Map<String, Object> playerData, final OnResultListener listener) {
         playerDataReference.document(phoneID).set(playerData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onResult(task.isSuccessful());
+            }
+        });
+    }
+
+    // Player Money
+    @Override
+    public void modifyPlayerMoney(String phoneID, int money, final OnResultListener listener) {
+        DocumentReference playerReference = playerDataReference.document(phoneID);
+        playerReference.update("money", money).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 listener.onResult(task.isSuccessful());

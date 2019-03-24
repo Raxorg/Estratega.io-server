@@ -1,6 +1,5 @@
 package com.frontanilla.estrategaioserver.interfacing.firebase;
 
-import com.frontanilla.estrategaioserver.utils.advanced.OnModifyResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
@@ -25,7 +24,7 @@ public interface RealtimeDBInterface {
     // Modifying
     //-----------
 
-    void modifyTurn(int turn, OnModifyResultListener<Integer> turnListener);
+    void modifyTurn(int turn, OnResultListener turnListener);
 
     //------------------------
     // Request Field Clearing

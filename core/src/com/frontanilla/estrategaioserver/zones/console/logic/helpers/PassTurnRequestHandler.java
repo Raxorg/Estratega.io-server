@@ -3,6 +3,7 @@ package com.frontanilla.estrategaioserver.zones.console.logic.helpers;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.frontanilla.estrategaioserver.core.ServerApp;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
+import com.frontanilla.estrategaioserver.utils.helpers.Transform;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleConnector;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleFirebase;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleStuff;
@@ -37,7 +38,10 @@ public class PassTurnRequestHandler {
                 // The Requester is in the Database Clone
                 if (playerDocuments.get(i).getTurn() == turn) {
                     // It's the Requester's Turn, Pass it
-                    consoleFirebase.modifyTurn(turn);
+                    if (turn == 7) {
+                        turn = -1;
+                    }
+                    consoleFirebase.modifyTurn(turn + 1);
                     return;
                 }
             }
@@ -46,19 +50,60 @@ public class PassTurnRequestHandler {
     }
 
     public void onSuccessModifyingTurn(int turn) {
-        // consoleFirebase.modifyPlayerMoney();
-        // TODO: Clear Pass Turn Request Field
-        // TODO: Retry if Failure Occurs
-        // TODO: If Another Round, Add Money to All Players
+        // Calculate Last Player's Turn
+        int lastPlayerTurn = turn == 0 ? 7 : turn - 1;
+        // Get the Players
+        DelayedRemovalArray<DBPlayerDocument> playerDocuments;
+        playerDocuments = consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments();
+        // Get the Last Turn's Player
+        for (int i = 0; i < playerDocuments.size; i++) {
+            if (playerDocuments.get(i).getTurn() == lastPlayerTurn) {
+                // Player Found, Add Money
+                String phoneID = playerDocuments.get(i).getPhoneID();
+                int newMoney = playerDocuments.get(i).getMoney() + 4;
+                consoleFirebase.modifyPlayerMoney(phoneID, newMoney);
+                return;
+            }
+        }
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Failed to Find Last Turn's Player");
     }
 
     public void onFailureModifyingTurn(int turn) {
         // Log in Logcat
-        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG,
-                "Failed to modify turn. Retrying...");
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Failed to Modify Turn. Retrying...");
         // Log in "REQUESTS" tab
-        consoleStuff.getRequestLog().log("Failed to modify turn. Retrying...");
+        consoleStuff.getRequestLog().log("Failed to Modify Turn. Retrying...");
+        // Retry
         consoleFirebase.modifyTurn(turn);
+    }
+
+    public void onSuccessModifyingPlayerMoney(String phoneID, int money) {
+        // Get the Players
+        DelayedRemovalArray<DBPlayerDocument> playerDocuments;
+        playerDocuments = consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments();
+        // Find the Player
+        for (int i = 0; i < playerDocuments.size; i++) {
+            if (playerDocuments.get(i).getPhoneID().equals(phoneID)) {
+                String playerName = playerDocuments.get(i).getName();
+                // Log in Logcat
+                ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG,
+                        "Success Modifying " + playerName + "'s Money. New Money: " + money);
+                // Log in "REQUESTS" tab
+                consoleStuff.getRequestLog().log("Success Modifying " + playerName + "'s Money. New Money: " + money,
+                        Transform.stringToColor(playerDocuments.get(i).getColor()));
+            }
+        }
+        // Clear Pass Turn Request Field
+        consoleFirebase.clearPassTurnRequestField();
+    }
+
+    public void onFailureModifyingPlayerMoney(String phoneID, int money) {
+        // Log in Logcat
+        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Failed to Modify Player's Money. Retrying...");
+        // Log in "REQUESTS" tab
+        consoleStuff.getRequestLog().log("Failed to Modify Player's Money. Retrying...");
+        // Retry
+        consoleFirebase.modifyPlayerMoney(phoneID, money);
     }
 
     public void onPassTurnRequestFieldCleared() {
@@ -68,58 +113,3 @@ public class PassTurnRequestHandler {
         consoleStuff.getRequestLog().log("Pass Turn Field Cleared");
     }
 }
-/*
-
-    private void passTurn(final int turn, final DelayedRemovalArray<Player> players) {
-        System.out.println("GameLogic-passTurn");
-        // Calculate next turn
-        final int nextTurn = turn == players.size - 1 ? 0 : turn + 1;
-        // Save changes
-        FirestoreDBConnection.getInstance().saveTurn(nextTurn, new OnResultListener() {
-            @Override
-            public void onResult(boolean success) {
-                if (success) {
-                    // Update last player's money
-                    ((GameWorld) screenWorld).updatePlayerInfo(players, nextTurn);
-                    incrementLastPlayerMoney(turn, players);
-                } else {
-                    FirestoreDBConnection.getInstance().saveTurn(nextTurn, this);
-                }
-            }
-        });
-    }
-
-    private void incrementLastPlayerMoney(final int turn, final DelayedRemovalArray<Player> players) {
-        System.out.println("GameLogic-incrementLastPlayerMoney");
-        final HashMap<String, Object> playerData = new HashMap<>();
-        String playerPhoneID = "";
-        for (Player player : players) {
-            if (player.getTurn() == turn) {
-                playerPhoneID = player.getPhoneID();
-                playerData.put("color", Util.getStringFromColor(player.getColor()));
-                playerData.put("money", player.getMoney() + 4);
-                playerData.put("name", player.getName());
-                playerData.put("turn", player.getTurn());
-                break;
-            }
-        }
-        final String finalPlayerPhoneID = playerPhoneID;
-        FirestoreDBConnection.getInstance().savePlayerData(playerPhoneID, playerData, new OnResultListener() {
-            @Override
-            public void onResult(boolean success) {
-                if (success) {
-                    // update player info
-                    for (Player player : players) {
-                        if (player.getPhoneID().equals(finalPlayerPhoneID)) {
-                            player.setMoney(player.getMoney() + 4);
-                        }
-                    }
-                    ((GameWorld) screenWorld).updatePlayerInfo(players, turn);
-                    passTurnRequestHandled();
-                } else {
-                    FirestoreDBConnection.getInstance().savePlayerData(finalPlayerPhoneID, playerData, this);
-                }
-            }
-        });
-    }
-    */

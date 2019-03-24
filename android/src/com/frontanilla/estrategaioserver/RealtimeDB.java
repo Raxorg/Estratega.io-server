@@ -3,7 +3,6 @@ package com.frontanilla.estrategaioserver;
 import android.support.annotation.NonNull;
 import com.frontanilla.estrategaioserver.interfacing.firebase.RealtimeDBInterface;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
-import com.frontanilla.estrategaioserver.utils.advanced.OnModifyResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
@@ -151,11 +150,11 @@ public class RealtimeDB implements RealtimeDBInterface {
     //-----------
     // Turn
     @Override
-    public void modifyTurn(final int turn, final OnModifyResultListener<Integer> turnListener) {
+    public void modifyTurn(final int turn, final OnResultListener turnListener) {
         turnReference.setValue(turn).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                turnListener.onResult(task.isSuccessful(), turn);
+                turnListener.onResult(task.isSuccessful());
             }
         });
     }

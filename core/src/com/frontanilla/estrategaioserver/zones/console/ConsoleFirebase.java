@@ -3,7 +3,6 @@ package com.frontanilla.estrategaioserver.zones.console;
 import com.frontanilla.estrategaioserver.core.ServerApp;
 import com.frontanilla.estrategaioserver.interfacing.firebase.Request;
 import com.frontanilla.estrategaioserver.utils.advanced.FirestoreDBOnChangeFetchListener;
-import com.frontanilla.estrategaioserver.utils.advanced.OnModifyResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.OnResultListener;
 import com.frontanilla.estrategaioserver.utils.advanced.RealtimeDBOnChangeFetchListener;
 import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
@@ -190,15 +189,32 @@ public class ConsoleFirebase extends ZoneFirebase {
     //-------------
     // MODIFY TURN
     //-------------
-    public void modifyTurn(int turn) {
+    public void modifyTurn(final int turn) {
         final PassTurnRequestHandler passTurnRequestHandler = ((ConsoleLogic) connector.getLogic()).getPassTurnRequestHandler();
-        ServerApp.instance.getRealtimeDBInterface().modifyTurn(turn, new OnModifyResultListener<Integer>() {
+        ServerApp.instance.getRealtimeDBInterface().modifyTurn(turn, new OnResultListener() {
             @Override
-            public void onResult(boolean success, Integer turn) {
+            public void onResult(boolean success) {
                 if (success) {
                     passTurnRequestHandler.onSuccessModifyingTurn(turn);
                 } else {
                     passTurnRequestHandler.onFailureModifyingTurn(turn);
+                }
+            }
+        });
+    }
+
+    //---------------------
+    // MODIFY PLAYER MONEY
+    //---------------------
+    public void modifyPlayerMoney(final String phoneID, final int money) {
+        final PassTurnRequestHandler passTurnRequestHandler = ((ConsoleLogic) connector.getLogic()).getPassTurnRequestHandler();
+        ServerApp.instance.getFirestoreDBInterface().modifyPlayerMoney(phoneID, money, new OnResultListener() {
+            @Override
+            public void onResult(boolean success) {
+                if (success) {
+                    passTurnRequestHandler.onSuccessModifyingPlayerMoney(phoneID, money);
+                } else {
+                    passTurnRequestHandler.onFailureModifyingPlayerMoney(phoneID, money);
                 }
             }
         });
