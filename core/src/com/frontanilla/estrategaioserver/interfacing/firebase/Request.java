@@ -8,6 +8,7 @@ public class Request {
     private String playerPhoneID;
     private String data;
 
+    // TODO: DELETE THIS SINCE WE'LL BE USING DATABASE CLONE CLASS
     public Request(RequestType requestType, String playerPhoneID, String data) {
         this.requestType = requestType;
         this.playerPhoneID = playerPhoneID;
