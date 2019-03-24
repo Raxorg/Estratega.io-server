@@ -35,7 +35,7 @@ public class ConsoleFirebase extends ZoneFirebase {
                 new FirestoreDBOnChangeFetchListener<DBPlayerDocument>() {
                     @Override
                     public void onFailure(String message) {
-                        System.out.println(message + " RETRYING");
+                        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, message + " Retrying...");
                         fetchPlayersInRealtime();
                     }
 
@@ -62,7 +62,7 @@ public class ConsoleFirebase extends ZoneFirebase {
         ServerApp.instance.getRealtimeDBInterface().fetchGridRowsInRealtime(new RealtimeDBOnChangeFetchListener<GridRow>() {
             @Override
             public void onFailure(String message) {
-                System.out.println(message + " RETRYING");
+                ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, message + " Retrying...");
                 fetchGridRowsInRealtime();
             }
 
@@ -73,7 +73,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onEmpty() {
-                // TODO
+                ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Empty result from fetchGridRowsInRealtime");
             }
         });
     }
@@ -81,67 +81,70 @@ public class ConsoleFirebase extends ZoneFirebase {
     // Addition Request
     public void fetchAdditionRequestInRealtime() {
         final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
-        ServerApp.instance.getRealtimeDBInterface().fetchAdditionRequestInRealtime(new RealtimeDBOnChangeFetchListener<Request>() {
-            @Override
-            public void onFailure(String message) {
-                System.out.println(message + " RETRYING");
-                ServerApp.instance.getRealtimeDBInterface().fetchAdditionRequestInRealtime(this);
-            }
+        ServerApp.instance.getRealtimeDBInterface().fetchAdditionRequestInRealtime(
+                new RealtimeDBOnChangeFetchListener<Request>() {
+                    @Override
+                    public void onFailure(String message) {
+                        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, message + " Retrying...");
+                        fetchAdditionRequestInRealtime();
+                    }
 
-            @Override
-            public void onDataFetched(Request additionRequest) {
-                databaseHandler.addRequest(additionRequest);
-            }
+                    @Override
+                    public void onDataFetched(Request additionRequest) {
+                        databaseHandler.addRequest(additionRequest);
+                    }
 
-            @Override
-            public void onEmpty() {
-                // TODO
-            }
-        });
+                    @Override
+                    public void onEmpty() {
+                        // TODO
+                    }
+                });
     }
 
     // Pass Turn
     public void fetchPassTurnRequestInRealtime() {
         final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
-        ServerApp.instance.getRealtimeDBInterface().fetchPassTurnRequestInRealtime(new RealtimeDBOnChangeFetchListener<Request>() {
-            @Override
-            public void onFailure(String message) {
-                System.out.println(message + " RETRYING");
-                ServerApp.instance.getRealtimeDBInterface().fetchPassTurnRequestInRealtime(this);
-            }
+        ServerApp.instance.getRealtimeDBInterface().fetchPassTurnRequestInRealtime(
+                new RealtimeDBOnChangeFetchListener<Request>() {
+                    @Override
+                    public void onFailure(String message) {
+                        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, message + " Retrying...");
+                        fetchPassTurnRequestInRealtime();
+                    }
 
-            @Override
-            public void onDataFetched(Request passTurn) {
-                databaseHandler.addRequest(passTurn);
-            }
+                    @Override
+                    public void onDataFetched(Request passTurn) {
+                        databaseHandler.addRequest(passTurn);
+                    }
 
-            @Override
-            public void onEmpty() {
-                // TODO
-            }
-        });
+                    @Override
+                    public void onEmpty() {
+                        // TODO
+                    }
+                });
     }
 
     // Placement
     public void fetchPlacementRequestInRealtime() {
         final DatabaseHandler databaseHandler = ((ConsoleLogic) connector.getLogic()).getDatabaseHandler();
-        ServerApp.instance.getRealtimeDBInterface().fetchPlacementRequestInRealtime(new RealtimeDBOnChangeFetchListener<Request>() {
-            @Override
-            public void onFailure(String message) {
-                System.out.println(message + " RETRYING");
-                ServerApp.instance.getRealtimeDBInterface().fetchPlacementRequestInRealtime(this);
-            }
+        ServerApp.instance.getRealtimeDBInterface().fetchPlacementRequestInRealtime(
+                new RealtimeDBOnChangeFetchListener<Request>() {
+                    @Override
+                    public void onFailure(String message) {
+                        ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, message + " Retrying...");
+                        fetchPlacementRequestInRealtime();
+                    }
 
-            @Override
-            public void onDataFetched(Request placementRequest) {
-                databaseHandler.addRequest(placementRequest);
-            }
+                    @Override
+                    public void onDataFetched(Request placementRequest) {
+                        databaseHandler.addRequest(placementRequest);
+                    }
 
-            @Override
-            public void onEmpty() {
-                // TODO
-            }
-        });
+                    @Override
+                    public void onEmpty() {
+                        // TODO
+                    }
+                });
     }
 
     // Turn
@@ -150,7 +153,7 @@ public class ConsoleFirebase extends ZoneFirebase {
         ServerApp.instance.getRealtimeDBInterface().fetchTurnInRealtime(new RealtimeDBOnChangeFetchListener<Integer>() {
             @Override
             public void onFailure(String message) {
-                System.out.println(message + " RETRYING");
+                ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, message + " Retrying...");
                 fetchTurnInRealtime();
             }
 
@@ -161,7 +164,7 @@ public class ConsoleFirebase extends ZoneFirebase {
 
             @Override
             public void onEmpty() {
-                // TODO
+                ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG, "Empty result from fetchTurnInRealtime");
             }
         });
     }
@@ -186,9 +189,7 @@ public class ConsoleFirebase extends ZoneFirebase {
     //-----------
     // PASS TURN
     //-----------
-
     public void passTurn() {
-
         // TODO: Pass Turn
         // TODO: Clear Pass Turn Request Field
         // TODO: Retry if Failure Occurs

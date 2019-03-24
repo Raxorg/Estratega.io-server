@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.*;
 
 import static com.frontanilla.estrategaioserver.utils.globals.Enums.RequestType.ADDITION;
+import static com.frontanilla.estrategaioserver.utils.globals.Enums.RequestType.PASS_TURN;
 
 public class RealtimeDB implements RealtimeDBInterface {
 
@@ -46,11 +47,11 @@ public class RealtimeDB implements RealtimeDBInterface {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String gridRowString = dataSnapshot.getValue(String.class);
-                    if (gridRowString != null) {
+                    if (gridRowString == null) {
+                        gridRowListener.onFailure("Error in fetchGridRowsInRealtime: Value From DataSnapshot is null");
+                    } else {
                         GridRow gridRow = new GridRow(finalI, gridRowString);
                         gridRowListener.onDataFetched(gridRow);
-                    } else {
-                        gridRowListener.onFailure("Error in fetchGridRowsInRealtime: Value From DataSnapshot is null");
                     }
                 }
 
@@ -69,15 +70,13 @@ public class RealtimeDB implements RealtimeDBInterface {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String additionRequestString = dataSnapshot.getValue(String.class);
-                // Check if Data Snapshot is Empty
-                if (additionRequestString != null && additionRequestString.equals("")) {
+                if (additionRequestString == null) {
+                    additionRequestListener.onFailure("Error in fetchAdditionRequestInRealtime: Value From DataSnapshot is null");
+                } else if (additionRequestString.equals("")) {
                     additionRequestListener.onEmpty();
                 } else {
                     // Build and Return the Addition Request
-                    String[] parts = new String[0];
-                    if (additionRequestString != null) {
-                        parts = additionRequestString.split("\\.");
-                    }
+                    String[] parts = additionRequestString.split("\\.");
                     Request additionRequest = new Request(ADDITION, parts[0], parts[1]);
                     additionRequestListener.onDataFetched(additionRequest);
                 }
@@ -92,16 +91,25 @@ public class RealtimeDB implements RealtimeDBInterface {
 
     // Pass Turn Request
     @Override
-    public void fetchPassTurnRequestInRealtime(final RealtimeDBOnChangeFetchListener<Request> requestListener) {
+    public void fetchPassTurnRequestInRealtime(final RealtimeDBOnChangeFetchListener<Request> passTurnRequestListener) {
         passTurnReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // TODO
+                String passTurnRequestString = dataSnapshot.getValue(String.class);
+                if (passTurnRequestString == null) {
+                    passTurnRequestListener.onFailure("Error in fetchPassTurnRequestInRealtime: Value From DataSnapshot is null");
+                } else if (passTurnRequestString.equals("")) {
+                    passTurnRequestListener.onEmpty();
+                } else {
+                    // Build and Return the Pass Turn Request
+                    Request additionRequest = new Request(PASS_TURN, passTurnRequestString, "");
+                    passTurnRequestListener.onDataFetched(additionRequest);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                requestListener.onFailure("Error Fetching Pass Turn Request: " + databaseError.getMessage());
+                passTurnRequestListener.onFailure("Error Fetching Pass Turn Request: " + databaseError.getMessage());
             }
         });
     }
