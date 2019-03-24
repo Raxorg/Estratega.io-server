@@ -66,7 +66,7 @@ public class PlayerList {
         playerTexts.begin();
         playerTexts.clear();
         Rectangle bounds = backgroundImage.getBounds();
-        DelayedRemovalArray<DBPlayerDocument> players = databaseClone.getPlayerData().getPlayerDocuments();
+        DelayedRemovalArray<DBPlayerDocument> players = databaseClone.getDBPlayerData().getPlayerDocuments();
         for (int i = 0; i < players.size; i++) {
             BackgroundAdvancedText newAdvancedText = new BackgroundAdvancedText(
                     bounds.x, bounds.y + bounds.height - (bounds.height / 9) * (i + 1) - margin,

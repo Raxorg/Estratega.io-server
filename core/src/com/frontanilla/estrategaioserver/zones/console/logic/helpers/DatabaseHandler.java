@@ -34,13 +34,13 @@ public class DatabaseHandler {
     }
 
     public void addPlayer(DBPlayerDocument playerDocument) {
-        consoleLogic.getDatabaseClone().getPlayerData().getPlayerDocuments().add(playerDocument);
+        consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments().add(playerDocument);
         consoleStuff.getPlayerList().updateTexts();
     }
 
     public void modifyPlayer(DBPlayerDocument playerDocument) {
         DelayedRemovalArray<DBPlayerDocument> playerDocuments;
-        playerDocuments = consoleLogic.getDatabaseClone().getPlayerData().getPlayerDocuments();
+        playerDocuments = consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments();
         for (int i = 0; i < playerDocuments.size; i++) {
             if (playerDocuments.get(i).getPhoneID().equals(playerDocument.getPhoneID())) {
                 playerDocuments.get(i).set(playerDocument);
@@ -52,7 +52,7 @@ public class DatabaseHandler {
 
     public void removePlayer(DBPlayerDocument playerDocument) {
         DelayedRemovalArray<DBPlayerDocument> playerDocuments;
-        playerDocuments = consoleLogic.getDatabaseClone().getPlayerData().getPlayerDocuments();
+        playerDocuments = consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments();
         playerDocuments.begin();
         playerDocuments.removeValue(playerDocument, false);
         playerDocuments.end();

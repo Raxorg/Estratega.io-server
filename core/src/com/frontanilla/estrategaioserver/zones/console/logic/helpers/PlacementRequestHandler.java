@@ -14,4 +14,8 @@ public class PlacementRequestHandler {
     public void handleRequest(Request request) {
 
     }
+
+    public void onPlacementRequestFieldCleared() {
+
+    }
 }

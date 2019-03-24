@@ -38,7 +38,7 @@ public class AdditionRequestHandler {
         Color requestedColor = Transform.stringToColor(requestedColorString);
         // Get the Players
         DelayedRemovalArray<DBPlayerDocument> playerDocuments;
-        playerDocuments = consoleLogic.getDatabaseClone().getPlayerData().getPlayerDocuments();
+        playerDocuments = consoleLogic.getDatabaseClone().getDBPlayerData().getPlayerDocuments();
         // Check if the Requested Color and Name are Available
         for (int i = 0; i < playerDocuments.size; i++) {
             if (Transform.stringToColor(playerDocuments.get(i).getColor()) == requestedColor) {

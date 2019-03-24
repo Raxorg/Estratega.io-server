@@ -14,19 +14,19 @@ public class DatabaseClone {
         playerData = new DBPlayerData();
     }
 
-    public DBGrid getGrid() {
+    public DBGrid getDBGrid() {
         return grid;
     }
 
-    public DBRequests getRequests() {
+    public DBRequests getDBRequests() {
         return requests;
     }
 
-    public DBTurn getTurn() {
+    public DBTurn getDBTurn() {
         return turn;
     }
 
-    public DBPlayerData getPlayerData() {
+    public DBPlayerData getDBPlayerData() {
         return playerData;
     }
 }

@@ -10,6 +10,8 @@ import com.frontanilla.estrategaioserver.zones.console.components.map.GridRow;
 import com.frontanilla.estrategaioserver.zones.console.logic.ConsoleLogic;
 import com.frontanilla.estrategaioserver.zones.console.logic.helpers.AdditionRequestHandler;
 import com.frontanilla.estrategaioserver.zones.console.logic.helpers.DatabaseHandler;
+import com.frontanilla.estrategaioserver.zones.console.logic.helpers.PassTurnRequestHandler;
+import com.frontanilla.estrategaioserver.zones.console.logic.helpers.PlacementRequestHandler;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneConnector;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneFirebase;
 
@@ -181,6 +183,14 @@ public class ConsoleFirebase extends ZoneFirebase {
         });
     }
 
+    //-----------
+    // PASS TURN
+    //-----------
+
+    public void passTurn() {
+        // TODO
+    }
+
     //------------------------
     // REQUEST FIELD CLEARING
     //------------------------
@@ -203,14 +213,39 @@ public class ConsoleFirebase extends ZoneFirebase {
     }
 
     public void clearPassTurnRequestField() {
-        // TODO
-    }
-
-    public void passTurn() {
-        // TODO
+        final PassTurnRequestHandler passTurnRequestHandler = ((ConsoleLogic) connector.getLogic()).getPassTurnRequestHandler();
+        ServerApp.instance.getRealtimeDBInterface().clearPassTurnRequestField(new OnResultListener() {
+            @Override
+            public void onResult(boolean success) {
+                if (success) {
+                    passTurnRequestHandler.onPassTurnRequestFieldCleared();
+                } else {
+                    // Log
+                    ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG,
+                            "Failed to clear Pass Turn Request field. Retrying...");
+                    // Retry
+                    clearAdditionRequestField();
+                }
+            }
+        });
     }
 
     public void clearPlacementRequestField() {
-        // TODO
+        final PlacementRequestHandler placementRequestHandler;
+        placementRequestHandler = ((ConsoleLogic) connector.getLogic()).getPlacementRequestHandler();
+        ServerApp.instance.getRealtimeDBInterface().clearPlacementRequestField(new OnResultListener() {
+            @Override
+            public void onResult(boolean success) {
+                if (success) {
+                    placementRequestHandler.onPlacementRequestFieldCleared();
+                } else {
+                    // Log
+                    ServerApp.instance.getDebugLoggerInterface().debugInfo(TAG,
+                            "Failed to clear Placement Request field. Retrying...");
+                    // Retry
+                    clearAdditionRequestField();
+                }
+            }
+        });
     }
 }

@@ -25,10 +25,13 @@ public class PassTurnRequestHandler {
     public void handleRequest(Request request) {
         // Deconstruct the Request
         String playerPhoneID = request.getPlayerPhoneID();
-        // Get the Players
-        DelayedRemovalArray<DBPlayerDocument> playerDocuments;
-        playerDocuments = consoleLogic.getDatabaseClone().getPlayerData().getPlayerDocuments();
+        // Get the Turn
+        int turn = consoleLogic.getDatabaseClone().getDBTurn().getTurn();
         // Check if it's the Player's Turn
+
+    }
+
+    public void onPassTurnRequestFieldCleared() {
 
     }
 }
