@@ -19,7 +19,7 @@ public class MapHandler {
     void pan(float deltaX, float deltaY) {
         if (consoleLogic.getCurrentTab() == MAP) {
             Vector2 gridPosition = consoleStuff.getGrid().getPosition();
-            consoleStuff.getGrid().setPosition(gridPosition.x + deltaX, gridPosition.y - deltaY);
+            consoleStuff.getGrid().setPositionInBounds(gridPosition.x + deltaX, gridPosition.y - deltaY);
         }
     }
 }

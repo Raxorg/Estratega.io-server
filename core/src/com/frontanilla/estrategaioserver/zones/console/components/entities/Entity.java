@@ -1,18 +1,18 @@
 package com.frontanilla.estrategaioserver.zones.console.components.entities;
 
 import com.badlogic.gdx.math.Polygon;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 
 public abstract class Entity {
 
-    protected Player owner;
+    protected DBPlayerDocument owner;
     protected Polygon bounds;
 
-    public Player getOwner() {
+    public DBPlayerDocument getOwner() {
         return owner;
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(DBPlayerDocument owner) {
         this.owner = owner;
     }
 
@@ -23,4 +23,16 @@ public abstract class Entity {
     public void setBounds(Polygon bounds) {
         this.bounds = bounds;
     }
+
+    /*
+    public void render(SpriteBatch batch) {
+        batch.setColor(color);
+        Rendering.renderRegionInBounds(batch, texture, bounds, rotation);
+    }
+
+    public void renderDebug(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.polygon(bounds.getTransformedVertices());
+    }
+     */
 }

@@ -107,7 +107,7 @@ public class ConsoleLogic extends ZoneLogic {
     public void showMap() {
         consoleStuff.getAnimatedBackground().setColor(GlobalConstants.GOLD_ROYAL);
         consoleStuff.getMapButton().useOpaqueColor();
-        consoleStuff.getGrid().setPosition(
+        consoleStuff.getGrid().setPositionInBounds(
                 ((ConsoleScreen) connector.getScreen()).getStaticCamera().viewportWidth / 2f - CONSOLE_MAP_SIZE / 2f,
                 0);
         currentTab = MAP;

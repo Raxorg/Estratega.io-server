@@ -8,7 +8,7 @@ import com.frontanilla.estrategaioserver.gui.fancy.AnimatedBackground;
 import com.frontanilla.estrategaioserver.gui.images.FadingImage;
 import com.frontanilla.estrategaioserver.zones.console.components.PlayerList;
 import com.frontanilla.estrategaioserver.zones.console.components.RequestLog;
-import com.frontanilla.estrategaioserver.zones.console.components.map.Grid;
+import com.frontanilla.estrategaioserver.zones.console.components.map.GridRepresentation;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneConnector;
 import com.frontanilla.estrategaioserver.zones.foundations.ZoneStuff;
 
@@ -21,7 +21,7 @@ public class ConsoleStuff extends ZoneStuff {
 
     private FadingImage whiteImage;
     private AnimatedBackground animatedBackground;
-    private Grid grid;
+    private GridRepresentation gridRepresentation;
     private PlayerList playerList;
     private RequestLog requestLog;
     private AdvancedButton requestsButton, playersButton, mapButton;
@@ -71,7 +71,9 @@ public class ConsoleStuff extends ZoneStuff {
         requestLog.getBackgroundImage().setTextureRegion(consoleAssets.getPixel());
         requestLog.getBackgroundImage().setColor(Color.GREEN.cpy().lerp(Color.CLEAR, 0.5f));
         // The Map
-        grid = new Grid(staticCamera, consoleAssets.getPixel());
+        gridRepresentation = new GridRepresentation(
+                consoleAssets.getPixel(), consoleAssets.getPixel(), consoleAssets.getMapButton(),
+                staticCamera, consoleAssets.getPixel());
     }
 
     private void initConsoleButtons(OrthographicCamera staticCamera, ConsoleAssets consoleAssets) {
@@ -122,8 +124,8 @@ public class ConsoleStuff extends ZoneStuff {
         return animatedBackground;
     }
 
-    public Grid getGrid() {
-        return grid;
+    public GridRepresentation getGrid() {
+        return gridRepresentation;
     }
 
     public RequestLog getRequestLog() {

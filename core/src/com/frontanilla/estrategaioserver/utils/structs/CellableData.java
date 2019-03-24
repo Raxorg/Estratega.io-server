@@ -1,22 +1,22 @@
 package com.frontanilla.estrategaioserver.utils.structs;
 
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 
 public class CellableData {
 
-    private Player owner;
+    private DBPlayerDocument owner;
     private int representation;
     private int health;
     private float rotation;
 
-    public CellableData(Player owner, int representation, int health, float rotation) {
+    public CellableData(DBPlayerDocument owner, int representation, int health, float rotation) {
         this.owner = owner;
         this.representation = representation;
         this.health = health;
         this.rotation = rotation;
     }
 
-    public Player getOwner() {
+    public DBPlayerDocument getOwner() {
         return owner;
     }
 

@@ -2,8 +2,9 @@ package com.frontanilla.estrategaioserver.zones.console.components.entities.cell
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
 import com.frontanilla.estrategaioserver.utils.helpers.Rendering;
+import com.frontanilla.estrategaioserver.utils.helpers.Transform;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 import com.frontanilla.estrategaioserver.zones.console.components.entities.Entity;
 
 import java.util.Map;
@@ -13,17 +14,17 @@ public abstract class Cellable extends Entity {
     // Regions Map
     protected Map<Integer, TextureRegion> regionsMap;
     // Cellable Data
-    protected Player owner;
+    protected DBPlayerDocument owner;
     protected int representation;
     protected int health;
     protected float rotation;
 
-    public Cellable(Player owner) {
+    public Cellable(DBPlayerDocument owner) {
         this.owner = owner;
     }
 
     public void render(SpriteBatch batch) {
-        batch.setColor(owner.getColor());
+        batch.setColor(Transform.stringToColor(owner.getColor()));
         Rendering.renderRegionInBounds(batch, regionsMap.get(health), bounds, rotation);
     }
 
@@ -40,11 +41,11 @@ public abstract class Cellable extends Entity {
     }
 
     // Cellable Data
-    public Player getOwner() {
+    public DBPlayerDocument getOwner() {
         return owner;
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(DBPlayerDocument owner) {
         this.owner = owner;
     }
 

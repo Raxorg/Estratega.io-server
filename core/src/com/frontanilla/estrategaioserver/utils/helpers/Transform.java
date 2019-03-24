@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.frontanilla.estrategaioserver.utils.structs.CellableData;
 import com.frontanilla.estrategaioserver.zones.console.ConsoleStuff;
 import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
@@ -65,6 +66,33 @@ public class Transform {
                 return Color.CYAN;
             case "S":
                 return Color.SALMON;
+            default:
+                return Color.DARK_GRAY;
+        }
+    }
+
+    public static CellableData[][] gridRowsToCellableDataArray(String[] gridRows, DelayedRemovalArray<DBPlayerDocument> players) {
+        CellableData[][] cellableDataArray = new CellableData[GRID_ROWS][GRID_COLUMNS];
+        for (int row = 0; row < cellableDataArray.length; row++) {
+            cellableDataArray[row] = new CellableData[GRID_COLUMNS];
+            String[] data = gridRows[row].split(",");
+            for (int column = 0; column < GRID_COLUMNS; column++) {
+                cellableDataArray[row][column] = new CellableData(
+                        Transform.colorCharToPlayerFromArray(data[column].charAt(0), players),
+                        Integer.valueOf(data[column].charAt(1) + ""),
+                        Integer.valueOf(data[column].charAt(2) + ""),
+                        Float.valueOf(data[column].substring(3))
+                );
+            }
+        }
+        return cellableDataArray;
+    }
+
+    public static DBPlayerDocument colorCharToPlayerFromArray(char color, DelayedRemovalArray<DBPlayerDocument> players) {
+        for (int i = 0; i < players.size; i++) {
+            if (Transform.stringToColor(players.get(i).getColor()) == stringToColor(color + "")) {
+                return players.get(i);
+            }
         }
         return null;
     }

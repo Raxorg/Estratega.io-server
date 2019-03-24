@@ -2,11 +2,11 @@ package com.frontanilla.estrategaioserver.zones.console.components.entities.cell
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.frontanilla.estrategaioserver.interfacing.firebase.Player;
+import com.frontanilla.estrategaioserver.zones.console.components.database.DBPlayerDocument;
 
 public class Wall extends Building {
 
-    public Wall(Player owner) {
+    public Wall(DBPlayerDocument owner) {
         super(owner);
     }
 

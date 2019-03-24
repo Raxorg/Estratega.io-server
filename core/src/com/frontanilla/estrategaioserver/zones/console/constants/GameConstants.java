@@ -4,9 +4,11 @@ public class GameConstants {
     // Cells
     public static final int CELL_SIZE = 50;
     public static final int CELL_SPACING = 6;
-    public static final int CELL_MARGIN = CELL_SPACING / 2;
+    public static final int CELL_TOUCH_MARGIN = CELL_SPACING / 2;
     // Grid
     public static final int GRID_BORDER = CELL_SIZE;
+    public static final int GRID_X = GRID_BORDER;
+    public static final int GRID_Y = GRID_BORDER;
     public static final int GRID_ROWS = 20;
     public static final int GRID_COLUMNS = 40;
     public static final int GRID_WIDTH = GRID_COLUMNS * CELL_SIZE + CELL_SPACING * (GRID_COLUMNS - 1);
